@@ -1,5 +1,5 @@
 <?php
-class array_diffTest extends PHPUnit_Framework_TestCase{
+class ArrayTest extends PHPUnit_Framework_TestCase{
 	public function testIndexedArray(){
 		$one = array('a', 'b', 'c');
 		$two = array('a', 'b', 'c');
