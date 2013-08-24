@@ -1,0 +1,15 @@
+{
+    "name": "knonji/php_testing",
+    "authors": [
+        {
+            "name": "kanonji",
+            "email": "kanonji@example.com"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    }
+}
