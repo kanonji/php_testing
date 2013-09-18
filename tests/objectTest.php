@@ -41,6 +41,14 @@ class Baz extends Foo{
 		return 'baz';
 	}
 }
+
+class ConstFoo{
+	const FOO = 'foo';
+}
+class ConstBar{
+	const BAR = ConstFoo::FOO;
+}
+
 class objectTest extends PHPUnit_Framework_TestCase{
 	public function test_親クラスのメソッドを通じてオーバーライドしたメソッドを呼ぶ場合、privateなメソッドだけオーバーライド出来ない(){
 		$bar = new Bar();
@@ -55,5 +63,9 @@ class objectTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals('baz', $baz->getProtected());
 		$this->assertEquals('foo', $baz->getPrivate());
 		$this->assertEquals('baz', $baz->privateAnswer());
+	}
+
+	public function test_コンストの値に他のコンストを使える(){
+		$this->assertEquals('foo', ConstBar::BAR);
 	}
 }
