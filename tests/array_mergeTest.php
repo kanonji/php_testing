@@ -1,5 +1,22 @@
 <?php
 class array_mergeTest extends PHPUnit_Framework_TestCase{
+
+	public function testIndexedArrayの加算は、配列2が長い場合に、その長い部分が配列1の後ろに付けられる(){
+		$one = array('aa', 'bb', '0',  0,    null, false);
+		$two = array('aa', 'xx', 'yy', 'yy', 'yy', 'yy', 'zz');
+		$this->assertEquals(array('aa', 'bb', '0', 0, null, false, 'zz'), $one + $two);
+
+		$one = array('aa', 'bb', 'cc');
+		$two = array('xx', 'yy');
+		$this->assertEquals(array('aa', 'bb', 'cc'), $one + $two);
+	}
+
+	public function testIndexedArrayのmergeは、内容に関わらず配列1の後ろに配列2が付けられる(){
+		$one = array('aa', 'bb', '0',  0,    null, false);
+		$two = array('aa', 'xx', 'yy', 'yy', 'yy', 'yy', 'zz');
+		$this->assertEquals(array('aa', 'bb', '0', 0, null, false, 'aa', 'xx', 'yy', 'yy', 'yy', 'yy', 'zz'), array_merge($one, $two));
+	}
+
 	public function testIndexedArray(){
 		$one = array('a', 'b', 'c');
 		$two = array('a', 'b', 'c');
