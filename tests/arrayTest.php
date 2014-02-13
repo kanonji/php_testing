@@ -22,4 +22,24 @@ class arrayTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals(array(array('foo'), array('ref', 'bar')), $one);
 		$this->assertEquals(array(array('foo', 'bar'), array('ref', 'bar')), $two);
 	}
+
+	public function test_foreach内でvalueをunsetしても配列に影響しない(){
+		$ary = array('foo', 'bar', 'baz');
+		foreach($ary as $value){
+			if('bar' === $value) unset($value);
+		}
+
+		$expected = array('foo', 'bar', 'baz');
+		$this->assertEquals($expected, $ary);
+
+		// foreach ref
+		$ary = array('foo', 'bar', 'baz');
+		foreach($ary as &$value){
+			if('baz' === $value) $value = strtoupper($value);
+			if('bar' === $value) unset($value);
+		}
+
+		$expected = array('foo', 'bar', 'BAZ');
+		$this->assertEquals($expected, $ary);
+	}
 }
