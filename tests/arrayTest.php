@@ -42,4 +42,11 @@ class arrayTest extends PHPUnit_Framework_TestCase{
 		$expected = array('foo', 'bar', 'BAZ');
 		$this->assertEquals($expected, $ary);
 	}
+
+	public function test_array_map内でreturnしない場合nullが入る(){
+		$ary = array(1,2,3,4,5);
+		$result = array_map(function($v){if(3 !== $v) return $v;}, $ary);
+		$expected = array(1, 2, null, 4, 5);
+		$this->assertEquals($expected, $result);
+	}
 }
