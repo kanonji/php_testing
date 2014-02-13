@@ -49,4 +49,11 @@ class arrayTest extends PHPUnit_Framework_TestCase{
 		$expected = array(1, 2, null, 4, 5);
 		$this->assertEquals($expected, $result);
 	}
+
+	/**
+	 * @expectedException PHPUnit_Framework_Error
+	 */
+	public function test_連想配列はlistで受け取れない(){
+		list($one, $two) = array('foo' => 'bar');
+	}
 }
