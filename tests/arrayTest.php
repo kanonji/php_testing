@@ -45,11 +45,7 @@ class arrayTest extends PHPUnit_Framework_TestCase{
 
 	public function test_array_map内でreturnしない場合nullが入る(){
 		$ary = array(1,2,3,4,5);
-		if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			$result = array_map(eval( '$callback = function($v){if(3 !== $v) return $v;}; return $callback;' ), $ary);
-		} else {
-			$result = array_map(create_function('$v', 'if(3 !== $v) return $v;'), $ary);
-		}
+		$result = array_map(function($v){if(3 !== $v) return $v;}, $ary);
 		$expected = array(1, 2, null, 4, 5);
 		$this->assertEquals($expected, $result);
 	}
