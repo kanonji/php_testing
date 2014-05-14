@@ -17,4 +17,25 @@ class filesystemTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals('0775', substr(sprintf('%o', fileperms($tmp)), -4) );
         rmdir($tmp);
     }
+
+    public function test_php_memory_streamはハンドルを開き直すと別データになる(){
+        $handle = new SplFileObject('php://memory', 'r+');
+        $handle->fwrite('foo'.PHP_EOL);
+        $handle->fwrite('bar'.PHP_EOL);
+        $handle->fwrite('baz'.PHP_EOL);
+
+        $this->assertEmpty($handle->fgets());
+
+        $handle->rewind();
+        $this->assertEquals('foo'.PHP_EOL, $handle->fgets());
+        $this->assertEquals('bar'.PHP_EOL, $handle->fgets());
+        $this->assertEquals('baz'.PHP_EOL, $handle->fgets());
+
+        $handle2 = new SplFileObject('php://memory', 'r+');
+        $result = '';
+        foreach($handle2 as $line){
+            $result .= $line;
+        }
+        $this->assertEmpty($result);
+    }
 }
