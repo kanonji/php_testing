@@ -129,4 +129,31 @@ class array_mergeTest extends PHPUnit_Framework_TestCase{
             )
         ), $one + $two);
     }
+
+    public function testNestedArrayのネスト部分はどちらか片方しか残らない(){
+        $one = array(
+            'foo' => array(
+                'FOO' => 1,
+            ),
+        );
+        $two = array(
+            'foo' => array(
+                'BAR' => 2,
+            ),
+        );
+
+        $expected = array(
+            'foo' => array(
+                'BAR' => 2,
+            ),
+        );
+        $this->assertEquals($expected, array_merge($one, $two));
+
+        $expected = array(
+            'foo' => array(
+                'FOO' => 1,
+            ),
+        );
+        $this->assertEquals($expected, $one + $two);
+    }
 }
