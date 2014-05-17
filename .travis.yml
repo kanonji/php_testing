@@ -3,4 +3,6 @@ php:
   - 5.3
   - 5.4
   - 5.5
-script: phpunit tests/
+script:
+  - echo "zend_extension = xdebug.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - phpunit tests/

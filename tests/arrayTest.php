@@ -75,4 +75,63 @@ class arrayTest extends PHPUnit_Framework_TestCase{
         $expected = array(2, 3, 4);
         $this->assertEquals($expected, $ary);
     }
+
+    public function test_foreachは配列をコピーして無い(){
+        $ary = array(1,2,3);
+
+        $expected = array(
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=2, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'item' => 'item: (refcount=2, is_ref=0)=1',
+            ),
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'item' => 'item: (refcount=2, is_ref=0)=2',
+            ),
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=0)=3)',
+                'item' => 'item: (refcount=2, is_ref=0)=3',
+            ),
+        );
+        foreach($ary as $key => $item){
+            ob_start();
+            xdebug_debug_zval('ary');
+            $ob_ary = rtrim(ob_get_contents(), PHP_EOL);
+            ob_end_clean();
+            ob_start();
+            xdebug_debug_zval('item');
+            $ob_item = rtrim(ob_get_contents(), PHP_EOL);
+            ob_end_clean();
+            $this->assertEquals($expected[$key]['ary'], $ob_ary);
+            $this->assertEquals($expected[$key]['item'], $ob_item);
+        }
+
+        $ary = array(1,2,3);
+        $expected = array(
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=2, is_ref=1)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ref' => 'ref: (refcount=2, is_ref=1)=1',
+            ),
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=1)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ref' => 'ref: (refcount=2, is_ref=1)=2',
+            ),
+            array(
+                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=1)=3)',
+                'ref' => 'ref: (refcount=2, is_ref=1)=3',
+            ),
+        );
+        foreach($ary as $key => &$ref){
+            ob_start();
+            xdebug_debug_zval('ary');
+            $ob_ary = rtrim(ob_get_contents(), PHP_EOL);
+            ob_end_clean();
+            ob_start();
+            xdebug_debug_zval('ref');
+            $ob_ref = rtrim(ob_get_contents(), PHP_EOL);
+            ob_end_clean();
+            $this->assertEquals($expected[$key]['ary'], $ob_ary);
+            $this->assertEquals($expected[$key]['ref'], $ob_ref);
+        }
+    }
 }
