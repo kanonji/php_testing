@@ -56,4 +56,23 @@ class arrayTest extends PHPUnit_Framework_TestCase{
     public function test_連想配列はlistで受け取れない(){
         list($one, $two) = array('foo' => 'bar');
     }
+
+    public function test_foreachの参照はunsetしないと危険(){
+        $ary = array(1, 2, 3);
+        foreach($ary as &$item){
+            ++$item;
+        }
+        $item = 0;
+        $expected = array(2, 3, 0);
+        $this->assertEquals($expected, $ary);
+
+        $ary = array(1, 2, 3);
+        foreach($ary as &$item){
+            ++$item;
+        }
+        unset($item); // This is important.
+        $item = 0;
+        $expected = array(2, 3, 4);
+        $this->assertEquals($expected, $ary);
+    }
 }
