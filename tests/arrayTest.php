@@ -76,20 +76,21 @@ class arrayTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals($expected, $ary);
     }
 
-    public function test_foreachは配列をコピーして無い(){
+    public function test_refcountが増えてるのでforeachは配列をコピーして無いっぽい(){
         $ary = array(1,2,3);
 
+        $refc = (version_compare(PHP_VERSION, '5.4.0') < 0) ? 3 : 2; // 3 for 5.3.x, 2 for any other.
         $expected = array(
             array(
-                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=2, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=0)=array (0 => (refcount=2, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)",
                 'item' => 'item: (refcount=2, is_ref=0)=1',
             ),
             array(
-                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)",
                 'item' => 'item: (refcount=2, is_ref=0)=2',
             ),
             array(
-                'ary' => 'ary: (refcount=2, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=0)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=0)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=0)=3)",
                 'item' => 'item: (refcount=2, is_ref=0)=3',
             ),
         );
@@ -109,15 +110,15 @@ class arrayTest extends PHPUnit_Framework_TestCase{
         $ary = array(1,2,3);
         $expected = array(
             array(
-                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=2, is_ref=1)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=1)=array (0 => (refcount=2, is_ref=1)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=1, is_ref=0)=3)",
                 'ref' => 'ref: (refcount=2, is_ref=1)=1',
             ),
             array(
-                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=1)=2, 2 => (refcount=1, is_ref=0)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=2, is_ref=1)=2, 2 => (refcount=1, is_ref=0)=3)",
                 'ref' => 'ref: (refcount=2, is_ref=1)=2',
             ),
             array(
-                'ary' => 'ary: (refcount=2, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=1)=3)',
+                'ary' => "ary: (refcount={$refc}, is_ref=1)=array (0 => (refcount=1, is_ref=0)=1, 1 => (refcount=1, is_ref=0)=2, 2 => (refcount=2, is_ref=1)=3)",
                 'ref' => 'ref: (refcount=2, is_ref=1)=3',
             ),
         );
