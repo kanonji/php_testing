@@ -135,4 +135,24 @@ class arrayTest extends PHPUnit_Framework_TestCase{
             $this->assertEquals($expected[$key]['ref'], $ob_ref);
         }
     }
+
+    /**
+     * @expectedException PHPUnit_Framework_Error
+     * @expectedExceptionMessage array_flip(): Can only flip STRING and INTEGER values!
+     */
+    public function test_array_flip_nested(){
+        $ary = array(
+            'foo' => array(
+                'foo1',
+                'foo2',
+                'foo3',
+            ),
+            'bar' => array(
+                'bar1',
+                'bar2',
+                'bar3',
+            ),
+        );
+        array_flip($ary);
+    }
 }
