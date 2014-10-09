@@ -2,7 +2,9 @@
 class DateTimeTest extends PHPUnit_Framework_TestCase{
     /**
      * @expectedException Exception
-     * @expectedExceptionMessage DateTime::__construct(): It is not safe to rely on the system's timezone settings. 
+     * @expectedExceptionMessageRegExp /It is not safe to rely on the system's timezone settings./
+     * For PHP 5.3.x 5.4.0 ~ 5.4.29 5.5.0 ~ 5.5.13 at least. : DateTime::__construct(): It is not safe to rely on the system's timezone settings. 
+     * For PHP 5.4.x 5.5.x : ini_set(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. 
      */
     public function test_Expect_Exception_with_no_timezone_set(){
         $this->assertTrue(false !== ini_set('date.timezone', null));
@@ -16,7 +18,15 @@ class DateTimeTest extends PHPUnit_Framework_TestCase{
         $diffInterval = $base->diff($comparative);
         $interval = new DateInterval('P1DT1H');
         $this->assertNotEquals($interval, $diffInterval);
-        $this->assertEquals(-99999, $interval->days); # I saw false on var_dump($interval);
+        if(
+            version_compare(PHP_VERSION, '5.4.0', '<')
+            || ( version_compare(PHP_VERSION, '5.4.0', '>=') && version_compare(PHP_VERSION, '5.4.29', '<=') )
+            || ( version_compare(PHP_VERSION, '5.5.0', '>=') && version_compare(PHP_VERSION, '5.5.13', '<=') )
+        ){
+            $this->assertEquals(-99999, $interval->days); # I saw false on var_dump($interval);
+        } else {
+            $this->assertEquals(false, $interval->days); # I saw false on var_dump($interval);
+        }
         $this->assertEquals(0, $diffInterval->days);
     }
 
