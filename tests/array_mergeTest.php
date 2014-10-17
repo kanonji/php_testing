@@ -17,6 +17,19 @@ class array_mergeTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals(array('aa', 'bb', '0', 0, null, false, 'aa', 'xx', 'yy', 'yy', 'yy', 'yy', 'zz'), array_merge($one, $two));
     }
 
+    public function testNamedArrayの加算は、前者優先(){
+        $one = array('AAA' => 'foo', 'BBB' => 0);
+        $two = array('AAA' => 'bar', 'CCC' => 1);
+        $this->assertEquals(array('AAA' => 'foo', 'BBB' => 0, 'CCC' => 1), $one + $two);
+    }
+
+    public function testNamedArrayのmergeは、後者優先(){
+        $one = array('AAA' => 'foo', 'BBB' => 0);
+        $two = array('AAA' => 'bar', 'CCC' => 1);
+        $this->assertEquals(array('AAA' => 'bar', 'CCC' => 1, 'BBB' => 0), array_merge($one, $two));
+        $this->assertEquals(array('AAA' => 'bar', 'BBB' => 0, 'CCC' => 1), array_merge($one, $two)); //assertEqualsは連想配列の順番にこだわらない
+    }
+
     public function testIndexedArray(){
         $one = array('a', 'b', 'c');
         $two = array('a', 'b', 'c');
