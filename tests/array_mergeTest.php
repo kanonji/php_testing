@@ -30,6 +30,24 @@ class array_mergeTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals(array('AAA' => 'bar', 'BBB' => 0, 'CCC' => 1), array_merge($one, $two)); //assertEqualsは連想配列の順番にこだわらない
     }
 
+    public function test_数字文字列keyはIndexedと同じ扱い(){
+        $stringKey = array('0' => 'AAA', '1' => 'BBB');
+        $one = array('AAA', 'BBB');
+        $two = array('aaa', 'bbb', 'ccc');
+
+        $this->assertEquals(array('AAA', 'BBB', 'ccc'), $one + $two);
+        $this->assertEquals(array('AAA', 'BBB', 'ccc'), $stringKey + $two);
+
+        $this->assertEquals(array('aaa', 'bbb', 'ccc'), $two + $one);
+        $this->assertEquals(array('aaa', 'bbb', 'ccc'), $two + $stringKey);
+
+        $this->assertEquals(array('AAA', 'BBB', 'aaa', 'bbb', 'ccc'), array_merge($one, $two));
+        $this->assertEquals(array('AAA', 'BBB', 'aaa', 'bbb', 'ccc'), array_merge($stringKey, $two));
+
+        $this->assertEquals(array('aaa', 'bbb', 'ccc', 'AAA', 'BBB'), array_merge($two, $one));
+        $this->assertEquals(array('aaa', 'bbb', 'ccc', 'AAA', 'BBB'), array_merge($two, $stringKey));
+    }
+
     public function testIndexedArray(){
         $one = array('a', 'b', 'c');
         $two = array('a', 'b', 'c');

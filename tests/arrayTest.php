@@ -155,4 +155,12 @@ class arrayTest extends PHPUnit_Framework_TestCase{
         );
         array_flip($ary);
     }
+
+    public function test_文字列としての数字は配列キーに使うとintになる(){
+        $array = array();
+        $array['50'] = 'this key is 50';
+        $key = array_keys($array);
+        $key = array_pop($key);
+        $this->assertEquals(true, 50 === $key);
+    }
 }
