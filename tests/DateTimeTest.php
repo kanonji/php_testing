@@ -1,15 +1,5 @@
 <?php
 class DateTimeTest extends PHPUnit_Framework_TestCase{
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessageRegExp /It is not safe to rely on the system's timezone settings./
-     * For PHP 5.3.x 5.4.0 ~ 5.4.29 5.5.0 ~ 5.5.13 at least. : DateTime::__construct(): It is not safe to rely on the system's timezone settings. 
-     * For PHP 5.4.x 5.5.x : ini_set(): It is not safe to rely on the system's timezone settings. You are *required* to use the date.timezone setting or the date_default_timezone_set() function. In case you used any of those methods and you are still getting this warning, you most likely misspelled the timezone identifier. 
-     */
-    public function test_Expect_Exception_with_no_timezone_set(){
-        $this->assertTrue(false !== ini_set('date.timezone', null));
-        new DateTime();
-    }
 
     public function test_DateTime：：diffのDateIntervalは少し特殊(){
         ini_set('date.timezone', 'Asia/Tokyo');
