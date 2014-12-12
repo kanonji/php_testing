@@ -117,4 +117,14 @@ class DateTimeTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals($today, $date2->format('Y-m-d H:i'));
         $this->assertEquals($today, $date3->format('Y-m-d H:i'));
     }
+
+    public function test_trueはdate_parseで例外(){
+        try{
+            $date1 = new DateTime(true);
+        } catch(Exception $e){
+            $message = $e->getMessage();
+        }
+        $expected = 'DateTime::__construct(): Failed to parse time string (1) at position 0 (1): Unexpected character';
+        $this->assertEquals($expected, $message);
+    }
 }
