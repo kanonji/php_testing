@@ -104,4 +104,17 @@ class DateTimeTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals('-0001-11-30 00:00:00', $date1->format('Y-m-d H:i:s'));
         $this->assertEquals('-0001-11-30 00:00:00', $date2->format('Y-m-d H:i:s'));
     }
+
+    public function test_空文字列、null、falseは引数無しと同様に現時刻(){
+        $today = new DateTime();
+        $today = $today->format('Y-m-d H:i');
+
+        $date1 = new DateTime('');
+        $date2 = new DateTime(null);
+        $date3 = new DateTime(false);
+
+        $this->assertEquals($today, $date1->format('Y-m-d H:i'));
+        $this->assertEquals($today, $date2->format('Y-m-d H:i'));
+        $this->assertEquals($today, $date3->format('Y-m-d H:i'));
+    }
 }
