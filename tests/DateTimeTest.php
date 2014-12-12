@@ -96,4 +96,12 @@ class DateTimeTest extends PHPUnit_Framework_TestCase{
             }
         }
     }
+
+    public function test_0000ー00ー00_00：00：00はdate_parseでエラーにならない(){
+        $date1 = new DateTime('0000-00-00'); #コンストラクタはdate_parse()と同じ
+        $date2 = new DateTime('0000-00-00 00:00:00');
+
+        $this->assertEquals('-0001-11-30 00:00:00', $date1->format('Y-m-d H:i:s'));
+        $this->assertEquals('-0001-11-30 00:00:00', $date2->format('Y-m-d H:i:s'));
+    }
 }
