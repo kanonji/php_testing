@@ -68,4 +68,9 @@ class objectTest extends PHPUnit_Framework_TestCase{
     public function test_コンストの値に他のコンストを使える(){
         $this->assertEquals('foo', ConstBar::BAR);
     }
+
+    public function test_クラス名を変数に入れてもコンストは使える(){
+        $class = 'ConstFoo';
+        $this->assertEquals('foo', $class::FOO);
+    }
 }
