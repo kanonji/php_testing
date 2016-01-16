@@ -1,4 +1,6 @@
 <?php
+if( version_compare(PHP_VERSION, '5.4.0') >= 0 ){
+
 trait FooTrait{
     public function fooPublic(){
         return get_class_methods(__trait__);
@@ -85,4 +87,6 @@ class TraitTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals('BarTraitClass', $obj->get__class__());
         $this->assertEquals('BarTrait', $obj->get__trait__());
     }
+}
+
 }
