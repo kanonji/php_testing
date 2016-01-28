@@ -33,9 +33,9 @@ class GeneratorTest extends PHPUnit_Framework_TestCase{
             try{
                 $generator->rewind();
             } catch(Exception $e) {
-                $errorMessage = 'Cannot rewind a generator that was already run';
-                $this->assertEquals($errorMessage, $e->getMessage());
             }
+            $errorMessage = 'Cannot rewind a generator that was already run';
+            $this->assertEquals($errorMessage, $e->getMessage());
         }
     }
 }
