@@ -28,4 +28,15 @@ class OtherTest extends PHPUnit_Framework_TestCase{
         $var = null;
         $var['foo'];
     }
+
+    public function test_関数（）？：false；な三項演算の省略は関数を1回だけ呼ぶ(){
+        $counter = 0;
+        $func = function() use (&$counter) {
+            ++$counter;
+            return true;
+        };
+        $func()?: false;
+
+        $this->assertEquals(1, $counter);
+    }
 }
