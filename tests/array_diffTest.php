@@ -1,20 +1,32 @@
 <?php
 class array_diffTest extends PHPUnit_Framework_TestCase{
-    public function testIndexedArray(){
-        $one = array('a', 'b', 'c');
-        $two = array('a', 'b', 'c');
+    public function test_indexed_完全に同じ(){
+        $one = array('A', 'B', 'C');
+        $two = array('A', 'B', 'C');
         $this->assertEquals(array(), array_diff($one, $two));
-        $one = array('a', 'b', 'c');
-        $two = array('a', 'c', 'b');
+    }
+
+    public function test_indexed_順番が違うだけならdiffは出ない(){
+        $one = array('A', 'B', 'C');
+        $two = array('A', 'C', 'B');
         $this->assertEquals(array(), array_diff($one, $two));
-        $one = array('a', 'b', 'c');
-        $two = array('b', 'b', 'b');
-        $this->assertEquals(array(0 => 'a', 2 => 'c'), array_diff($one, $two));
-        $one = array('a', 'b', 'c');
-        $two = array('a', 'b', 'c', 'd');
+    }
+
+    public function test_indexed_異なる(){
+        $one = array('A', 'B', 'C');
+        $two = array('B', 'B', 'B');
+        $this->assertEquals(array(0 => 'A', 2 => 'C'), array_diff($one, $two));
+    }
+
+    public function test_indexed_第2引数にある余分なDは結果に含まれ無い(){
+        $one = array('A', 'B', 'C');
+        $two = array('A', 'B', 'C', 'D');
         $this->assertEquals(array(), array_diff($one, $two));
-        $one = array('a', 'b', 'c');
-        $two = array('a', 'b', 'd');
-        $this->assertEquals(array(2 => 'c'), array_diff($one, $two));
+    }
+
+    public function test_indexed_あくまで第1引数に有って、第2引数に無いものがdiffになる(){
+        $one = array('A', 'B', 'C');
+        $two = array('A', 'B', 'D');
+        $this->assertEquals(array(2 => 'C'), array_diff($one, $two));
     }
 }
