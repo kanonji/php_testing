@@ -29,4 +29,16 @@ class array_diffTest extends PHPUnit_Framework_TestCase{
         $two = array('A', 'B', 'D');
         $this->assertEquals(array(2 => 'C'), array_diff($one, $two));
     }
+
+    public function test_assoc_完全に同じ(){
+        $one = array('A' => '_A', 'B' => '_B', 'C' => '_C');
+        $two = array('A' => '_A', 'B' => '_B', 'C' => '_C');
+        $this->assertEquals(array(), array_diff($one, $two));
+    }
+
+    public function test_assoc_順番が違うだけならdiffは出ない(){
+        $one = array('A' => '_A', 'B' => '_B', 'C' => '_C');
+        $two = array('A' => '_A', 'C' => '_C', 'B' => '_B');
+        $this->assertEquals(array(), array_diff($one, $two));
+    }
 }
